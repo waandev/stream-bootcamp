@@ -16,13 +16,10 @@ class WebhookController extends Controller
         \Midtrans\Config::$isProduction = (bool) env('MIDTRANS_IS_PRODUCTION', false);
         \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
         $notif = new \Midtrans\Notification();
-
         $transactionStatus = $notif->transaction_status;
         $orderId = $notif->order_id;
         $fraudStatus = $notif->fraud_status;
-
         $status = '';
-
         if ($transactionStatus == 'capture') {
             if ($fraudStatus == 'challenge') {
                 $status = 'challenge';
@@ -40,6 +37,34 @@ class WebhookController extends Controller
         } else if ($transactionStatus == 'pending') {
             $status = 'pending';
         }
+
+        $transaction = Transaction::where('transaction_code', $orderId)->first();
+        $package = Package::find($transaction->package_id);
+
+        if ($status === 'success') {
+            $userPremium = UserPremium::where('user_id', $transaction->user_id)->first();
+
+            if ($userPremium) {
+                // renewal subscription
+                $endOfSubscription = $userPremium->end_of_subscription;
+                $date = Carbon::createFromFormat('Y-m-d', $endOfSubscription);
+                $newEndOfSubscription = $date->addDays($package->max_days)->format('Y-m-d');
+
+                $userPremium->update([
+                    'package_id' => $transaction->package_id,
+                    'end_of_subscription' => $newEndOfSubscription
+                ]);
+            } else {
+                // new subscriber
+                UserPremium::create([
+                    'package_id' => $package->id,
+                    'user_id' => $transaction->user_id,
+                    'end_of_subscription' => now()->addDays($package->max_days)
+                ]);
+            }
+        }
+
+        $transaction->update(['status' => $status]);
 
         return response()->json(null);
     }
