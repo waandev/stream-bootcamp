@@ -10,6 +10,12 @@ class LoginController extends Controller
 {
     public function index()
     {
+        $user = auth()->user();
+
+        if ($user) {
+            return redirect()->route('member.dashboard');
+        }
+
         return view('member.auth');
     }
 
