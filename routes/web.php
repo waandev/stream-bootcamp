@@ -34,14 +34,17 @@ Route::post('/register', [RegisterController::class, 'store'])->name('member.reg
 Route::get('/login', [MemberLoginController::class, 'index'])->name('member.login');
 Route::post('/login', [MemberLoginController::class, 'auth'])->name('member.login.auth');
 
+Route::post('/payment-notification', [WebhookController::class, 'handler'])
+    ->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
+
+Route::view('/payment-finish', 'member.payment-finish')->name('member.payment.finish');
+
 Route::group(['prefix' => 'member', 'middleware' => ['auth']], function () {
     Route::get('/', [MemberDashboardController::class, 'index'])->name('member.dashboard');
     Route::get('movie/{id}', [MemberMovieController::class, 'show'])->name('member.movie.detail');
     Route::get('movie/{id}/watch', [MemberMovieController::class, 'watch'])->name('member.movie.watch');
 
     Route::post('transaction', [MemberTransactionController::class, 'store'])->name('member.transaction.store');
-
-    Route::view('payment-finish', 'member.payment-finish')->name('member.payment.finish');
 });
 
 // Define admin routes here
