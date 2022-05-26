@@ -12,6 +12,7 @@ use App\Http\Controllers\Member\PricingController;
 use App\Http\Controllers\Member\DashboardController as MemberDashboardController;
 use App\Http\Controllers\Member\MovieController as MemberMovieController;
 use App\Http\Controllers\Member\TransactionController as MemberTransactionController;
+use App\Http\Controllers\Member\WebhookController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
