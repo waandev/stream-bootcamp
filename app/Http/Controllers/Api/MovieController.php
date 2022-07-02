@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Movie;
-
+use App\Models\UserPremium;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 
 class MovieController extends Controller
