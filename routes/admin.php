@@ -11,7 +11,7 @@ Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
 Route::get('/logout', [LoginController::class, 'logout'])->name('admin.login.logout');
 
 Route::group(['prefix' => 'movie'], function () {
-    Route::get('/', [MovieController::class, 'index'])->name('admin.movie');
+    Route::get('/', [MovieController::class, 'index'])->name('admin.movie.index');
 
     Route::get('/create', [MovieController::class, 'create'])->name('admin.movie.create');
     Route::post('/store', [MovieController::class, 'store'])->name('admin.movie.store');
