@@ -11,17 +11,17 @@
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css" />
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
-
     </style>
 
     <script src="{{ asset('stream/assets/script/tailwind-config.js') }}"></script>
 
     <style type="text/tailwindcss">
-        @layer components{
-            .side-link{
+        @layer components {
+            .side-link {
                 @apply flex items-center font-normal text-stream-gray text-base w-full p-4 rounded-2xl gap-[10px] transition-all;
             }
-            .side-link.active{
+
+            .side-link.active {
                 @apply bg-softpur font-semibold text-white;
             }
         }
@@ -55,6 +55,7 @@
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="{{ asset('stream/assets/script/script.js') }}"></script>
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+    <script src="https://js.pusher.com/beams/1.0/push-notifications-cdn.js"></script>
     <script>
         $(document).ready(function() {
             $('.watched-movies').removeClass('hidden').flickity({
@@ -67,7 +68,16 @@
                 "prevNextButtons": false,
                 "draggable": ">1"
             });
-        })
+        });
+
+        const beamsClient = new PusherPushNotifications.Client({
+            instanceId: '2f9f5526-e8a6-43c1-87e4-df87339f3012',
+        });
+
+        beamsClient.start()
+            .then(() => beamsClient.addDeviceInterest('hello'))
+            .then(() => console.log('Successfully registered and subscribed!'))
+            .catch(console.error);
     </script>
     @yield('js');
 </body>
