@@ -22,7 +22,8 @@
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
                 <li class="nav-item">
                     <a href="{{ route('admin.dashboard') }}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -46,6 +47,15 @@
                         <i class="nav-icon fas fa-video"></i>
                         <p>
                             Movies
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.notification') }}" class="nav-link">
+                        <i class="nav-icon fas fa-bell"></i>
+                        <p>
+                            Notification
                         </p>
                     </a>
                 </li>
